@@ -1,0 +1,117 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Area {
+  id                 Int                  @id @default(autoincrement())
+  abstract           String
+  image              String?              @db.VarChar(255)
+  name               String               @unique @db.VarChar(255)
+  createdAt          DateTime?            @default(now()) @db.Timestamptz(6)
+  updatedAt          DateTime?            @default(now()) @db.Timestamptz(6)
+  deletedAt          DateTime?            @db.Timestamptz(6)
+  Member             Member[]
+  ProjectParticipant ProjectParticipant[]
+
+  @@map("areas")
+}
+
+model Career {
+  id        Int       @id @default(autoincrement())
+  code      String    @unique @db.VarChar(255)
+  name      String    @unique @db.VarChar(255)
+  createdAt DateTime? @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime? @default(now()) @db.Timestamptz(6)
+  deletedAt DateTime? @db.Timestamptz(6)
+  Member    Member[]
+
+  @@map("career")
+}
+
+model Status {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique @db.VarChar(255)
+  createdAt DateTime? @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime? @default(now()) @db.Timestamptz(6)
+  deletedAt DateTime? @db.Timestamptz(6)
+  Member    Member[]
+
+  @@map("status")
+}
+
+model Member {
+  id          Int       @id @default(autoincrement())
+  areaId      Int
+  birthday    DateTime  @db.Timestamptz(6)
+  careerId    Int
+  code        String    @db.VarChar(255)
+  email       String    @db.VarChar(255)
+  lastName    String    @db.VarChar(255)
+  name        String    @db.VarChar(255)
+  phone       String    @db.VarChar(255)
+  photo       String    @db.VarChar(255)
+  statusId    Int
+  git         String?   @db.VarChar(255)
+  displayName String?   @db.VarChar(255)
+  linkedin    String?   @db.VarChar(255)
+  key         Boolean?
+  createdAt   DateTime? @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime? @default(now()) @db.Timestamptz(6)
+  deletedAt   DateTime? @db.Timestamptz(6)
+
+  Area               Area                 @relation(fields: [areaId], references: [id])
+  Career             Career               @relation(fields: [careerId], references: [id])
+  Status             Status               @relation(fields: [statusId], references: [id])
+  ProjectParticipant ProjectParticipant[]
+
+  @@map("members")
+}
+
+model Project {
+  id                 Int                  @id @default(autoincrement())
+  areaId             Int
+  description        String               @db.VarChar(255)
+  name               String               @unique @db.VarChar(255)
+  topic              String?              @db.VarChar(255)
+  createdAt          DateTime?            @default(now()) @db.Timestamptz(6)
+  updatedAt          DateTime?            @default(now()) @db.Timestamptz(6)
+  deletedAt          DateTime?            @db.Timestamptz(6)
+  ProjectParticipant ProjectParticipant[]
+  Repository         Repository[]
+
+  @@map("projects")
+}
+
+model ProjectParticipant {
+  id        Int       @id @default(autoincrement())
+  areaId    Int
+  memberId  Int
+  projectId Int
+  createdAt DateTime? @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime? @default(now()) @db.Timestamptz(6)
+  deletedAt DateTime? @db.Timestamptz(6)
+
+  Area    Area    @relation(fields: [areaId], references: [id])
+  Member  Member  @relation(fields: [memberId], references: [id])
+  Project Project @relation(fields: [projectId], references: [id])
+
+  @@map("projectParticipants")
+}
+
+model Repository {
+  id        Int       @id @default(autoincrement())
+  projectId Int
+  url       String    @db.VarChar(255)
+  createdAt DateTime? @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime? @default(now()) @db.Timestamptz(6)
+  deletedAt DateTime? @db.Timestamptz(6)
+
+  Project Project @relation(fields: [projectId], references: [id])
+
+  @@map("repositories")
+}
