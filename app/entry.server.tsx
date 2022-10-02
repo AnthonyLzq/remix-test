@@ -4,6 +4,8 @@ import { Response } from '@remix-run/node'
 import { RemixServer } from '@remix-run/react'
 import { renderToPipeableStream } from 'react-dom/server'
 
+import { dbConnection } from './database'
+
 const ABORT_DELAY = 5000
 
 export default function handleRequest(
@@ -22,7 +24,7 @@ export default function handleRequest(
           const body = new PassThrough()
 
           responseHeaders.set('Content-Type', 'text/html')
-
+          await dbConnection()
           resolve(
             new Response(body, {
               headers: responseHeaders,
@@ -32,7 +34,9 @@ export default function handleRequest(
 
           pipe(body)
         },
-        onShellError: err => {
+        onShellError: async err => {
+          await dbConnection()
+
           reject(err)
         },
         onError: error => {
