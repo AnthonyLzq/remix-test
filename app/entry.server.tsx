@@ -1,52 +1,58 @@
-import { PassThrough } from 'stream'
 import type { EntryContext } from '@remix-run/node'
 import { Response } from '@remix-run/node'
 import { RemixServer } from '@remix-run/react'
-import { renderToPipeableStream } from 'react-dom/server'
+import { renderToString } from 'react-dom/server'
+import { CacheProvider } from '@emotion/react'
+import createEmotionServer from '@emotion/server/create-instance'
+import { ThemeProvider } from '@mui/material/styles'
+import CssBaseline from '@mui/material/CssBaseline'
 
+import { theme, StylesContext } from './global'
+import { createEmotionCache } from './utils'
 import { dbConnection } from './database'
 
-const ABORT_DELAY = 5000
-
-export default function handleRequest(
+export default async function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
   remixContext: EntryContext
 ) {
-  return new Promise((resolve, reject) => {
-    let didError = false
+  const cache = createEmotionCache()
+  const { extractCriticalToChunks } = createEmotionServer(cache)
 
-    const { pipe, abort } = renderToPipeableStream(
-      <RemixServer context={remixContext} url={request.url} />,
-      {
-        onShellReady: async () => {
-          const body = new PassThrough()
+  const MuiRemixServer = () => (
+    <CacheProvider value={cache}>
+      <ThemeProvider theme={theme}>
+        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+        <CssBaseline />
+        <RemixServer context={remixContext} url={request.url} />
+      </ThemeProvider>
+    </CacheProvider>
+  )
 
-          responseHeaders.set('Content-Type', 'text/html')
-          await dbConnection()
-          resolve(
-            new Response(body, {
-              headers: responseHeaders,
-              status: didError ? 500 : responseStatusCode
-            })
-          )
+  // Render the component to a string.
+  const html = renderToString(
+    <StylesContext.Provider value={null}>
+      <MuiRemixServer />
+    </StylesContext.Provider>
+  )
 
-          pipe(body)
-        },
-        onShellError: async err => {
-          await dbConnection()
+  // Grab the CSS from emotion
+  const emotionChunks = extractCriticalToChunks(html)
 
-          reject(err)
-        },
-        onError: error => {
-          didError = true
+  // Re-render including the extracted css.
+  const markup = renderToString(
+    <StylesContext.Provider value={emotionChunks.styles}>
+      <MuiRemixServer />
+    </StylesContext.Provider>
+  )
 
-          console.error(error)
-        }
-      }
-    )
+  responseHeaders.set('Content-Type', 'text/html')
 
-    setTimeout(abort, ABORT_DELAY)
+  await (await dbConnection()).connect()
+
+  return new Response(`<!DOCTYPE html>${markup}`, {
+    status: responseStatusCode,
+    headers: responseHeaders
   })
 }
