@@ -1,4 +1,5 @@
 import { useLoaderData } from '@remix-run/react'
+import type { MetaFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 
 import { getAllMembers } from '~/database'
@@ -15,6 +16,11 @@ const useStyles = makeStyles()(() => ({
     height: '100%'
   }
 }))
+
+export const meta: MetaFunction = () => ({
+  title: 'ACECOM - Miembros',
+  description: 'Miembros de las diferentes áreas de ACECOM'
+})
 
 export const loader = async () => {
   return json<LoaderData>({

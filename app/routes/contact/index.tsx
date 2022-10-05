@@ -8,6 +8,7 @@ import { loadFull } from 'tsparticles'
 import type { Engine } from 'tsparticles-engine'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import type { MetaFunction } from '@remix-run/node'
 
 import { makeStyles, particlesConfig } from '~/utils'
 import { MainContactTypography, SecondaryContactTypography } from '~/components'
@@ -184,6 +185,11 @@ const fireSwal = (successOrError: 'success' | 'error') => {
     width: 'auto'
   })
 }
+
+export const meta: MetaFunction = () => ({
+  title: 'ACECOM - Contáctanos',
+  description: 'Envíanos un correo y ponte en contacto con nosotros'
+})
 
 const Contact = () => {
   const { classes } = useStyles()

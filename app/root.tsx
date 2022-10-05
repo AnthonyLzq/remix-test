@@ -20,8 +20,16 @@ import { useContext } from 'react'
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
-  title: 'New Remix App',
-  viewport: 'width=device-width,initial-scale=1'
+  title: 'ACECOM',
+  viewport: 'width=device-width,initial-scale=1',
+  keywords:
+    'ACECOM,Asociación,Científica,Especializada,En,Computación,Association,Scientific,Specialized,In,Computing,Computer Science,Computer,Science',
+  'twitter:image':
+    'https://remix-test-psi.vercel.app/build/_assets/acecomLogo-EOQZHCKF.svg',
+  'twitter:card': 'ACECOM',
+  'twitter:creator': '@AnthonLzq',
+  'twitter:title': 'ACECOM',
+  'twitter:description': 'Scientific Association Specilized in Computing'
 })
 
 export default function App() {
