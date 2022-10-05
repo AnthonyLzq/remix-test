@@ -58,8 +58,7 @@ const getAbbrAndIcon = (code: number) => {
 
 const BottomMenu = () => {
   const { areas, setCurrentArea } = useContext(MobileLayoutContext)
-  const { classes, theme } = useStyles()
-  console.log('theme', theme)
+  const { classes } = useStyles()
   const [value, setValue] = useState(areas ? areas[0].id : 1)
 
   return (

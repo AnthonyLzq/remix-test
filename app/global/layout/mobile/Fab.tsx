@@ -28,8 +28,7 @@ const useStyles = makeStyles()((theme: Theme) => ({
 
 const FabMobile = () => {
   const { openFab, toggleOpenFab } = useContext(MobileLayoutContext)
-  const { classes, theme } = useStyles()
-  console.log('theme', theme)
+  const { classes } = useStyles()
 
   return (
     <Fab
