@@ -60,7 +60,8 @@ const GlobalStyle = () => (
         }
       },
       a: {
-        all: 'unset'
+        all: 'unset',
+        cursor: 'pointer'
       }
     }}
   />

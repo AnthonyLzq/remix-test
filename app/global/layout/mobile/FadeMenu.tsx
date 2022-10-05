@@ -1,11 +1,10 @@
 import { useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
 import type { Theme } from '@mui/material'
 import { Typography, Fade } from '@mui/material'
 
-import { makeStyles } from '~/utils'
+import { makeStyles, routes } from '~/utils'
 import { MobileLayoutContext } from './context'
-// import { routes } from 'routes'
+import { Link } from '@remix-run/react'
 
 const useStyles = makeStyles()((theme: Theme) => ({
   menuFab: {
@@ -34,27 +33,26 @@ const useStyles = makeStyles()((theme: Theme) => ({
 
 const FadeMenu = () => {
   const { openFab, toggleOpenFab } = useContext(MobileLayoutContext)
-  const { classes, theme } = useStyles()
-  console.log('theme', theme)
-  const navigate = useNavigate()
+  const { classes } = useStyles()
 
   return (
     <Fade in={openFab}>
       <div className={classes.menuFab}>
-        {/* {routes.map(({ label, path }) => (
-          <div
+        {routes.map(({ label, path }) => (
+          <Link
             key={label}
-            className={classes.menuOption}
+            to={path}
             onClick={() => {
-              navigate(path)
               toggleOpenFab()
             }}
           >
-            <Typography variant='h2' className={classes.menuOptionFont}>
-              {label}
-            </Typography>
-          </div>
-        ))} */}
+            <div className={classes.menuOption}>
+              <Typography variant='h2' className={classes.menuOptionFont}>
+                {label}
+              </Typography>
+            </div>
+          </Link>
+        ))}
       </div>
     </Fade>
   )
