@@ -1,10 +1,10 @@
 import { useContext } from 'react'
 import type { Theme } from '@mui/material'
 import { Fab } from '@mui/material'
-import { makeStyles } from 'tss-react/mui'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded'
 
+import { makeStyles } from '~/utils'
 import { MobileLayoutContext } from './context'
 
 const useStyles = makeStyles()((theme: Theme) => ({
@@ -28,7 +28,8 @@ const useStyles = makeStyles()((theme: Theme) => ({
 
 const FabMobile = () => {
   const { openFab, toggleOpenFab } = useContext(MobileLayoutContext)
-  const { classes } = useStyles()
+  const { classes, theme } = useStyles()
+  console.log('theme', theme)
 
   return (
     <Fab

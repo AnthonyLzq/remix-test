@@ -1,3 +1,5 @@
 export * from './particlesConfig'
 export * from './background'
 export * from './createMotionCache'
+export * from './makeStyles'
+export * from './routes'

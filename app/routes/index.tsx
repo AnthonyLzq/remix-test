@@ -1,12 +1,12 @@
 import type { Theme } from '@mui/material'
 import { Grid, useTheme, useMediaQuery } from '@mui/material'
-import { makeStyles } from 'tss-react/mui'
 import Particles from 'react-tsparticles'
 import { loadFull } from 'tsparticles'
 import type { Engine } from 'tsparticles-engine'
 
+import { makeStyles } from '~/utils'
 import { particlesConfig } from '~/utils'
-import { Logo, Title } from '~/global/components'
+import { Logo, Title } from '~/components'
 
 const fullDiv = {
   width: '100%',

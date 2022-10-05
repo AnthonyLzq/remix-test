@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react'
-import { makeStyles } from 'tss-react/mui'
 
+import { makeStyles } from '~/utils'
 import { MobileLayoutContextAPI } from './context'
 import { FabMobile } from './Fab'
 import { FadeMenu } from './FadeMenu'

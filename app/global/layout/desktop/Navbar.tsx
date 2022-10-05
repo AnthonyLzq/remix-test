@@ -1,8 +1,8 @@
-import { useNavigate, useLocation } from 'react-router-dom'
-import { AppBar, Toolbar, Button } from '@mui/material'
-import { makeStyles } from 'tss-react/mui'
+import { useLocation } from 'react-router-dom'
+import { AppBar, Button, Toolbar } from '@mui/material'
+import { Link } from '@remix-run/react'
 
-// import { routes } from 'routes'
+import { makeStyles, routes } from '~/utils'
 
 const navbarHeight = 40
 const appBarButtonStyles = {
@@ -23,10 +23,10 @@ const useStyles = makeStyles()(() => ({
     zIndex: 200
   },
   toolbar: {
-    minHeight: 40,
+    minHeight: '40px !important',
     display: 'flex',
     justifyContent: 'flex-end',
-    padding: 0
+    padding: '0px !important'
   },
   appBarButton: {
     ...appBarButtonStyles
@@ -38,31 +38,26 @@ const useStyles = makeStyles()(() => ({
 }))
 
 const Navbar = () => {
-  const navigate = useNavigate()
   const { classes } = useStyles()
   const location = useLocation()
 
   return (
-    <>
-      <AppBar position='fixed' className={classes.appBar}>
-        <Toolbar className={classes.toolbar}>
-          {/* {routes.map(({ label, path }) => (
-            <Button
-              key={path}
-              className={
-                path === location.pathname
-                  ? classes.pressedAppBarButton
-                  : classes.appBarButton
-              }
-              variant='text'
-              onClick={() => navigate(path)}
-            >
-              {label}
-            </Button>
-          ))} */}
-        </Toolbar>
-      </AppBar>
-    </>
+    <AppBar position='fixed' className={classes.appBar}>
+      <Toolbar className={classes.toolbar}>
+        {routes.map(({ label, path }) => (
+          <Button
+            key={path}
+            className={
+              path === location.pathname
+                ? classes.pressedAppBarButton
+                : classes.appBarButton
+            }
+          >
+            <Link to={path}>{label}</Link>
+          </Button>
+        ))}
+      </Toolbar>
+    </AppBar>
   )
 }
 

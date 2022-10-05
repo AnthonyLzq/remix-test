@@ -1,10 +1,10 @@
 import type { FC } from 'react'
 import type { Theme } from '@mui/material'
 import { Grid, Hidden } from '@mui/material'
-import { makeStyles } from 'tss-react/mui'
 
+import { makeStyles } from '~/utils'
 import { acecomLogo } from '~/static'
-import { CustomTypoGraphy } from './styles'
+import { CustomTypoGraphy } from '~/global'
 
 const useStyles = makeStyles()((theme: Theme) => ({
   acecomLogo: {

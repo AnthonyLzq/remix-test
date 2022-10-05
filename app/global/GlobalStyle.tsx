@@ -58,6 +58,9 @@ const GlobalStyle = () => (
           fontFamily: 'Nunito !important',
           fontWeight: '700 !important'
         }
+      },
+      a: {
+        all: 'unset'
       }
     }}
   />

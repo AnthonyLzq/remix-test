@@ -1,3 +1,2 @@
 export * from './Loader'
-export * from './Logo'
-export * from './Title'
+export * from './styles'

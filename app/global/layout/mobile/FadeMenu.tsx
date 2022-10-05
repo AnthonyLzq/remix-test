@@ -2,8 +2,8 @@ import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import type { Theme } from '@mui/material'
 import { Typography, Fade } from '@mui/material'
-import { makeStyles } from 'tss-react/mui'
 
+import { makeStyles } from '~/utils'
 import { MobileLayoutContext } from './context'
 // import { routes } from 'routes'
 
@@ -34,7 +34,8 @@ const useStyles = makeStyles()((theme: Theme) => ({
 
 const FadeMenu = () => {
   const { openFab, toggleOpenFab } = useContext(MobileLayoutContext)
-  const { classes } = useStyles()
+  const { classes, theme } = useStyles()
+  console.log('theme', theme)
   const navigate = useNavigate()
 
   return (

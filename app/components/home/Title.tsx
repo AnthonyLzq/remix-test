@@ -1,9 +1,9 @@
 import type { FC } from 'react'
 import type { Theme } from '@mui/material'
 import { Grid } from '@mui/material'
-import { makeStyles } from 'tss-react/mui'
 
-import { CustomTypoGraphy } from './styles'
+import { makeStyles } from '~/utils'
+import { CustomTypoGraphy } from '~/global'
 
 const useStyles = makeStyles()((theme: Theme) => ({
   title: {

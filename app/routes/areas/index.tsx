@@ -1,6 +1,8 @@
 import { useLoaderData } from '@remix-run/react'
 import { json } from '@remix-run/node'
+import { Hidden } from '@mui/material'
 
+import { ContentCards, ContentMenuAreas } from '~/components'
 import { getAllAreas } from '~/database'
 
 type LoaderData = {
@@ -13,19 +15,19 @@ export const loader = async () => {
   })
 }
 
-const Members = () => {
+const Areas = () => {
   const { areas } = useLoaderData() as SerializerNestedArray<LoaderData>
 
   return (
-    <ol>
-      {areas.map(area => (
-        <li key={area.id}>
-          <h1>{area.name}</h1>
-          <p>{area.abstract}</p>
-        </li>
-      ))}
-    </ol>
+    <>
+      <Hidden smDown>
+        <ContentCards areas={areas} />
+      </Hidden>
+      <Hidden mdUp>
+        <ContentMenuAreas areas={areas} />
+      </Hidden>
+    </>
   )
 }
 
-export default Members
+export default Areas

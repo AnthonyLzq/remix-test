@@ -1,5 +1,6 @@
 import { CircularProgress } from '@mui/material'
-import { makeStyles } from 'tss-react/mui'
+
+import { makeStyles } from '~/utils'
 
 const useStyles = makeStyles()(() => ({
   loaderContent: {
