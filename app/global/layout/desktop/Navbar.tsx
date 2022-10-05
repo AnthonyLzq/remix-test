@@ -45,16 +45,17 @@ const Navbar = () => {
     <AppBar position='fixed' className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
         {routes.map(({ label, path }) => (
-          <Button
-            key={path}
-            className={
-              path === location.pathname
-                ? classes.pressedAppBarButton
-                : classes.appBarButton
-            }
-          >
-            <Link to={path}>{label}</Link>
-          </Button>
+          <Link key={path} to={path}>
+            <Button
+              className={
+                path === location.pathname
+                  ? classes.pressedAppBarButton
+                  : classes.appBarButton
+              }
+            >
+              {label}
+            </Button>
+          </Link>
         ))}
       </Toolbar>
     </AppBar>
